@@ -1,6 +1,9 @@
 const express = require("express");
+const cors = require('cors')
 const app = express();
 const port = process.env.PORT || 5000;
+app.use(cors());
+app.use(express.json());
 
 
 const users = [
@@ -39,6 +42,13 @@ const users = [
 
 app.get("/api/users", async (req, res) => {
     res.send(users);
+})
+
+app.post("/api/users", async (req, res) => {
+    const newUser = req.body;
+    newUser.id = users.length + 1;
+    users.push(newUser);
+    res.send(newUser);
 })
 
 app.listen(port, () => {
